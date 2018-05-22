@@ -10,7 +10,8 @@ class SignUp extends Component {
             email:"",
             password:"",
             checkPassword:"",
-            data:""
+            data:"",
+            flash:""
         }
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -36,7 +37,6 @@ class SignUp extends Component {
 
     handleSubmit(e ,data){
       e.preventDefault();
-      console.log(JSON.stringify(this.state,null,2));
       this.setState({
           name:"",
           email:"",
@@ -54,26 +54,23 @@ class SignUp extends Component {
         headers: {
           "Content-Type": "application/json"
         },
-      }).then(function (response) {
-        console.log('====================================');
-        console.log(response.json());
-        console.log('====================================');
-      }, function (error) {
-        console.log('====================================');
-        console.log(error.message);
-        console.log('====================================');
       })
+      .then(res => res.json())
+      .then(res  =>  this.setState({"flash":  res.flash}), err  =>  this.setState({"flash":  err.flash}))
     }
 
 
 
     render() {
 
-      const {data, ...form }= this.state;
+      const {data, flash, ...form }= this.state;
         return (
             <div className="col-sm-8 offset-sm-2">
               <div className="row justify-content-center">
                 <h1><pre>{JSON.stringify(form,null,2)}</pre></h1>
+              </div>
+              <div className="row justify-content-center">
+                <h3 className="alert-danger">{flash.length>0 && flash}</h3>
               </div>
               <form method="POST" action="/auth/signup" onSubmit={e => this.handleSubmit(e,form)} onChange={this.handleChange}>
                 <div className="form-group">

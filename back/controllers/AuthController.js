@@ -16,7 +16,9 @@ class AuthController {
    */
   signUp(req,res){
     const { checkPassword, ...user } = req.body;
-    db.users.create(user).then(user => res.redirect("/auth"));
+    db.users.create(user).then(user => {
+      res.status(200).json({ flash:  "User has been signed up !" });
+    }).catch(err => res.status(500).json({ flash:  err.message }));
   }
   /**
    * [show description]
