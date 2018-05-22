@@ -1,0 +1,24 @@
+{
+  "name": "reactquest",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "concurrently --kill-others \"cd front && npm start\" \"cd back && npm start\"",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Fukoyamashisu/ReactQuest.git"
+  },
+  "author": "anthony",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Fukoyamashisu/ReactQuest/issues"
+  },
+  "homepage": "https://github.com/Fukoyamashisu/ReactQuest#readme",
+  "devDependencies": {
+    "concurrently": "^3.5.1",
+    "nodemon": "^1.17.4"
+  }
+}

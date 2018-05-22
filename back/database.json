@@ -1,0 +1,10 @@
+{
+    "development": {
+        "username": "dev2502_test2",
+        "password": "WcsRoot",
+        "database": "dev2502_exemple",
+        "host": "109.234.165.57",
+        "dialect": "mysql",
+        "logging": false
+    }
+}
