@@ -40,9 +40,6 @@ class SignUp extends Component {
 
     handleSubmit(e ,data){
       e.preventDefault();
-      console.log('====================================');
-      console.log(data);
-      console.log('====================================');
       this.setState({
           name:"",
           email:"",
@@ -62,7 +59,7 @@ class SignUp extends Component {
         },
       })
       .then(res => res.json())
-      .then(res  =>  this.setState({"flash":  res.flash}), err  =>  this.setState({"flash":  err.flash}))
+        .then(res => this.props.update({ flash: res.flash, open: true }), err => this.props.update({ flash: err.flash, open: true}))
     }
 
 
@@ -81,11 +78,6 @@ class SignUp extends Component {
               </Grid>
             </Grid>
             <Grid item sm={6}>
-              <Grid item sm={12 }>
-                <Grid container direction="row" justify="center">
-                  <h3 className="alert-danger">{flash.length > 0 && flash}</h3>
-                </Grid>
-              </Grid>
               <Grid item sm={12}>
                   <Grid container direction="row" justify="center" alignItems="flex-end">
                   <AccountCircle />
