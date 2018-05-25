@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-
+import {Grid,Paper} from '@material-ui/core';
 import SignUp from './SignUp';
 
 
@@ -14,14 +14,18 @@ class App extends Component {
 
 
     return (
-      <div className="container">
-        <div className="row justify-content-center mt-4 mb-5">
-          <h1>Welcome Wilder ! </h1>
-        </div>
-        <div className="row">
-          <SignUp />
-        </div>
-      </div>
+      <Grid container
+        alignItems='center'
+        style={{ height: '100%' }}>
+        <Grid item xs={12}>
+          <Paper
+            elevation={4}
+            style={{ margin: 32 }}
+          >
+            <SignUp />
+          </Paper>
+        </Grid>
+      </Grid>
     );
   }
 }
