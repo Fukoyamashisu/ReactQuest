@@ -47,11 +47,9 @@ class SignIn extends Component {
         })
             .then(res =>  res.json())
             .then(res => {
-                if (res.status !== 200) {
-                    this.setState({ flash: res.flash, open: true });
-                    return;
-                }
-                this.props.history.push("/profile", { flash: res.flash, open: true, user:res.user } );
+                localStorage.setItem('token', res.token);
+                localStorage.setItem('user', res.user);
+                this.props.history.push("/profile");
             }, err => this.update({ flash: err.flash, open: true }))
     }
 

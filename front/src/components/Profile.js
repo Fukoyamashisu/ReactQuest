@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { Grid, Snackbar, Button } from '@material-ui/core';
 import { Close, ExitToApp } from '@material-ui/icons';
 import homer from '../assets/images/Homer.png';
+import checkUser from './Private';
+
 
 
 class Profile extends Component {
@@ -12,15 +14,16 @@ class Profile extends Component {
             flash:"",
             user:{}
          };
+        this.logOut = this.logOut.bind(this);
     }
 
     componentDidMount(){
-        if (this.props.location.state) {
-            const { open, flash, user } = this.props.location.state;
-            this.setState({ open, flash, user });
-        }else{
-            this.props.history.push("/", { open:true, flash:"No Authenticate" });
-        }
+        checkUser(this,this.props);
+    }
+
+    logOut(){
+        localStorage.clear();
+        this.props.history.push("/");
     }
 
 
@@ -50,7 +53,7 @@ class Profile extends Component {
                             <h3 className="text-muted">{user.password}</h3>
                         </Grid>
                         <Grid container direction="row" justify="center">
-                            <Button variant="raised" color="primary">
+                            <Button variant="raised" color="primary" onClick={this.logOut}>
                                 Log Out
                               <ExitToApp style={{ marginLeft: "10px" }} />
                             </Button>
