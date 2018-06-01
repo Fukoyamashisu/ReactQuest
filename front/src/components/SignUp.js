@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { Grid,TextField,Button} from '@material-ui/core';
-import {AccountCircle,Send} from '@material-ui/icons';
+import { Grid,TextField,Button,Snackbar} from '@material-ui/core';
+import {AccountCircle,Send,Close} from '@material-ui/icons';
 import homer from '../assets/images/Homer.png';
+import {Link} from 'react-router-dom';
 
 
 
@@ -14,17 +15,23 @@ class SignUp extends Component {
             password:"",
             checkPassword:"",
             data:"",
-            flash:""
+            flash:"",
+            open:false
         }
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.sendUser = this.sendUser.bind(this);
+        this.handleClose = this.handleClose.bind(this);
+        this.update = this.update.bind(this);
     }
 
+    handleClose(){
+      this.setState({ open: false })
+    }
+
+
     componentDidMount(){
-      this.callApi()
-        .then(res => this.setState({ data: res }))
-        .catch(err => console.log(err));
+      
     }
 
     callApi = async () => {
@@ -40,9 +47,6 @@ class SignUp extends Component {
 
     handleSubmit(e ,data){
       e.preventDefault();
-      console.log('====================================');
-      console.log(data);
-      console.log('====================================');
       this.setState({
           name:"",
           email:"",
@@ -53,7 +57,7 @@ class SignUp extends Component {
       e.target.reset();
     }
 
-    sendUser(data){
+    sendUser(data) {
       fetch("/auth/signup", {
         method: "POST",
         body: JSON.stringify(data),
@@ -61,8 +65,19 @@ class SignUp extends Component {
           "Content-Type": "application/json"
         },
       })
-      .then(res => res.json())
-      .then(res  =>  this.setState({"flash":  res.flash}), err  =>  this.setState({"flash":  err.flash}))
+        .then(res => res.json())
+        .then(res => {
+          if (res.status !== 200) {
+            this.setState({ flash: res.flash, open: true });
+            return;
+          }
+          this.props.history.push("/", { flash: res.flash, open: true });
+        }, err => this.update({ flash: err.flash, open: true }))
+    }
+
+
+    update(ob) {
+      this.setState(ob)
     }
 
 
@@ -81,11 +96,11 @@ class SignUp extends Component {
               </Grid>
             </Grid>
             <Grid item sm={6}>
-              <Grid item sm={12 }>
-                <Grid container direction="row" justify="center">
-                  <h3 className="alert-danger">{flash.length > 0 && flash}</h3>
+                <Grid item sm={12}>
+                  <Grid container direction="row" justify="center" alignItems="flex-end">
+                    <h2>Sign Up</h2>
+                  </Grid>
                 </Grid>
-              </Grid>
               <Grid item sm={12}>
                   <Grid container direction="row" justify="center" alignItems="flex-end">
                   <AccountCircle />
@@ -112,14 +127,27 @@ class SignUp extends Component {
               </Grid>
               <Grid item sm={12} style={{margin:"20px 0"}}>
                 <Grid container direction="row" justify="center">
-                <Button type="submit" variant="raised" color="primary">
-                  Send
-                 <Send style={{marginLeft:"10px"}}/>
-                </Button>
+                  <Button type="submit" variant="raised" color="primary">
+                    Send
+                  <Send style={{marginLeft:"10px"}}/>
+                  </Button>
                 </Grid>
               </Grid>
+                <Grid container direction="row" justify="center" alignItems="center">
+                  <Link to='/signin'>Sign In</Link>
+                </Grid>
             </Grid>
           </Grid>
+            <Snackbar
+              open={this.state.open}
+              autoHideDuration={4000}
+              onClose={() => this.update({open:false})}
+              message={<span id="snackbar-fab-message-id">{this.state.flash}</span>}
+              action={
+                <Button color="inherit" size="small" onClick={() => this.update({ open: false })}>
+                  <Close />
+                </Button>
+              } />
           </form>
 
         );

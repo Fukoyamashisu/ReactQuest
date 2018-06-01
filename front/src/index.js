@@ -34,8 +34,12 @@ const theme = createMuiTheme({
 });
 
 
-ReactDOM.render(
-    <MuiThemeProvider theme={theme}>
-        <App />
-    </MuiThemeProvider>, document.getElementById('root'));
+const app = () => <MuiThemeProvider theme={theme}>
+                        <App />
+                    </MuiThemeProvider>;
+
+
+
+
+ReactDOM.render(app(),document.getElementById('root'));
 registerServiceWorker();
