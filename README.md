@@ -19,3 +19,7 @@
 
 * add **Quest 060**
 
+* add **Quest 070**
+
+* add **Quest 080**
+
